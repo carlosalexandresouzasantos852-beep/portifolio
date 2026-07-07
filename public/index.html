@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>dev.showcase</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-deep:#0F1420;
+    --bg-panel:#161C2C;
+    --bg-panel-2:#1D2438;
+    --line:#2A3350;
+    --amber:#F2A93B;
+    --teal:#4FD1C5;
+    --violet:#B79CF2;
+    --text-hi:#E8EAF0;
+    --text-mu:#8991A8;
+    --whatsapp:#25D366;
+    --whatsapp-dark:#1DA851;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--bg-deep);color:var(--text-hi);font-family:'Inter',sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  a{color:inherit;}
+  ::selection{background:var(--amber);color:#1a1200;}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 24px;}
+  header.site{position:sticky;top:0;z-index:40;background:rgba(15,20,32,0.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:16px 0;}
+  .brand{display:flex;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:18px;}
+  .brand .dot{width:9px;height:9px;border-radius:50%;background:var(--amber);box-shadow:0 0 10px var(--amber);}
+  .nav-links{display:flex;gap:28px;font-size:14px;color:var(--text-mu);}
+  .nav-links a{text-decoration:none;transition:color .15s;}
+  .nav-links a:hover{color:var(--text-hi);}
+  .nav-cta{background:var(--whatsapp);color:#06210f;font-weight:700;font-size:13px;padding:9px 16px;border-radius:8px;text-decoration:none;display:flex;align-items:center;gap:6px;transition:transform .15s, background .15s;}
+  .nav-cta:hover{background:var(--whatsapp-dark);transform:translateY(-1px);}
+  .hero{padding:72px 0 56px;}
+  .hero-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:56px;align-items:center;}
+  .eyebrow{font-family:'JetBrains Mono',monospace;color:var(--teal);font-size:13px;letter-spacing:.06em;display:flex;align-items:center;gap:8px;margin-bottom:18px;}
+  .eyebrow::before{content:"";width:16px;height:1px;background:var(--teal);display:inline-block;}
+  h1.headline{font-family:'JetBrains Mono',monospace;font-weight:800;font-size:44px;line-height:1.12;margin:0 0 20px;letter-spacing:-.01em;}
+  h1.headline .accent{color:var(--amber);}
+  .sub{color:var(--text-mu);font-size:16.5px;max-width:480px;margin-bottom:30px;}
+  .hero-actions{display:flex;gap:14px;flex-wrap:wrap;}
+  .btn-primary{background:var(--whatsapp);color:#06210f;font-weight:700;font-size:15px;padding:14px 22px;border-radius:10px;text-decoration:none;display:inline-flex;align-items:center;gap:9px;transition:transform .15s,box-shadow .15s;border:none;cursor:pointer;}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(37,211,102,.25);}
+  .btn-ghost{border:1px solid var(--line);color:var(--text-hi);font-weight:600;font-size:15px;padding:14px 22px;border-radius:10px;text-decoration:none;display:inline-flex;align-items:center;transition:border-color .15s,background .15s;}
+  .btn-ghost:hover{border-color:var(--amber);background:rgba(242,169,59,.06);}
+  .term{background:var(--bg-panel);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.35);}
+  .term-bar{display:flex;align-items:center;gap:7px;padding:11px 14px;background:var(--bg-panel-2);border-bottom:1px solid var(--line);}
+  .term-bar span{width:11px;height:11px;border-radius:50%;display:inline-block;}
+  .term-bar span:nth-child(1){background:#FF5F57;}
+  .term-bar span:nth-child(2){background:#FEBC2E;}
+  .term-bar span:nth-child(3){background:#28C840;}
+  .term-title{margin-left:8px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text-mu);}
+  .term-body{padding:22px 20px;font-family:'JetBrains Mono',monospace;font-size:13.5px;min-height:210px;}
+  .term-line{margin-bottom:10px;color:var(--text-mu);}
+  .term-line .prompt{color:var(--teal);}
+  .term-line .out{color:var(--text-hi);}
+  .cursor{display:inline-block;width:8px;height:15px;background:var(--amber);vertical-align:middle;margin-left:2px;animation:blink 1s step-start infinite;}
+  @keyframes blink{50%{opacity:0;}}
+  @media (prefers-reduced-motion:reduce){.cursor{animation:none;}}
+  section{padding:64px 0;}
+  .section-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:32px;flex-wrap:wrap;gap:12px;}
+  .section-head h2{font-family:'JetBrains Mono',monospace;font-size:26px;margin:0;font-weight:700;}
+  .section-head .tag{font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--text-mu);}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;}
+  .card{background:var(--bg-panel);border:1px solid var(--line);border-radius:var(--radius);padding:20px;display:flex;flex-direction:column;transition:transform .18s,border-color .18s;}
+  .card:hover{transform:translateY(-4px);border-color:var(--amber);}
+  .card-img{width:100%;height:140px;object-fit:cover;border-radius:9px;margin-bottom:14px;background:var(--bg-panel-2);}
+  .cat-row{display:flex;align-items:center;gap:7px;margin-bottom:10px;}
+  .cat-dot{width:8px;height:8px;border-radius:2px;}
+  .cat-label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-mu);}
+  .card h3{font-size:18px;margin:0 0 8px;font-weight:700;}
+  .card p.desc{color:var(--text-mu);font-size:14px;flex:1;margin:0 0 16px;}
+  .card-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+  .price{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--amber);font-size:17px;}
+  .price small{color:var(--text-mu);font-weight:400;font-size:12px;}
+  .card-cta{background:var(--whatsapp);color:#06210f;font-weight:700;font-size:13px;padding:9px 13px;border-radius:8px;text-decoration:none;white-space:nowrap;transition:background .15s;}
+  .card-cta:hover{background:var(--whatsapp-dark);}
+  .empty-state{border:1px dashed var(--line);border-radius:var(--radius);padding:40px;text-align:center;color:var(--text-mu);font-family:'JetBrains Mono',monospace;font-size:14px;grid-column:1/-1;}
+  .about-box{background:var(--bg-panel);border:1px solid var(--line);border-radius:var(--radius);padding:30px;color:var(--text-mu);font-size:15.5px;max-width:760px;}
+  footer{border-top:1px solid var(--line);padding:40px 0;}
+  .foot-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+  .foot-brand{font-family:'JetBrains Mono',monospace;font-weight:700;}
+  .foot-mu{color:var(--text-mu);font-size:13.5px;}
+  .gear{position:fixed;bottom:18px;right:18px;width:40px;height:40px;border-radius:50%;background:var(--bg-panel);border:1px solid var(--line);color:var(--text-mu);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;z-index:60;transition:color .15s,border-color .15s;}
+  .gear:hover{color:var(--amber);border-color:var(--amber);}
+  .overlay{position:fixed;inset:0;background:rgba(6,9,16,.75);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:100;padding:20px;}
+  .modal{background:var(--bg-panel);border:1px solid var(--line);border-radius:var(--radius);width:100%;max-width:420px;padding:26px;}
+  .modal h3{margin-top:0;font-family:'JetBrains Mono',monospace;}
+  .field{margin-bottom:16px;}
+  .field label{display:block;font-size:12.5px;color:var(--text-mu);margin-bottom:6px;font-family:'JetBrains Mono',monospace;}
+  .field input,.field textarea,.field select{width:100%;background:var(--bg-panel-2);border:1px solid var(--line);border-radius:8px;padding:10px 12px;color:var(--text-hi);font-family:'Inter',sans-serif;font-size:14px;}
+  .field textarea{resize:vertical;min-height:70px;}
+  .field input:focus,.field textarea:focus,.field select:focus{outline:2px solid var(--amber);outline-offset:1px;}
+  .row-btns{display:flex;gap:10px;margin-top:6px;}
+  .btn-sm{font-size:13px;font-weight:700;padding:9px 14px;border-radius:8px;border:none;cursor:pointer;font-family:'Inter',sans-serif;}
+  .btn-sm.primary{background:var(--amber);color:#241700;}
+  .btn-sm.ghost{background:transparent;border:1px solid var(--line);color:var(--text-hi);}
+  .btn-sm.danger{background:#3a1620;color:#ff8fa3;border:1px solid #5a1f2c;}
+  .btn-sm:hover{filter:brightness(1.08);}
+  .admin-shell{max-width:900px;margin:0 auto;padding:32px 24px 80px;}
+  .admin-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;flex-wrap:wrap;gap:12px;}
+  .admin-head h1{font-family:'JetBrains Mono',monospace;font-size:22px;margin:0;}
+  .admin-card{background:var(--bg-panel);border:1px solid var(--line);border-radius:var(--radius);padding:22px;margin-bottom:20px;}
+  .admin-card h2{font-family:'JetBrains Mono',monospace;font-size:15px;margin:0 0 16px;color:var(--teal);}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .pkg-row{display:flex;gap:14px;align-items:flex-start;border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:12px;background:var(--bg-panel-2);}
+  .pkg-row img{width:64px;height:64px;object-fit:cover;border-radius:8px;flex-shrink:0;background:var(--bg-deep);}
+  .pkg-row .info{flex:1;min-width:0;}
+  .pkg-row .info strong{display:block;font-size:14.5px;margin-bottom:2px;}
+  .pkg-row .info span{font-size:12.5px;color:var(--text-mu);}
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--amber);color:#241700;font-weight:700;font-size:13.5px;padding:11px 20px;border-radius:9px;z-index:200;opacity:0;pointer-events:none;transition:opacity .25s, transform .25s;font-family:'JetBrains Mono',monospace;}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(-6px);}
+  .loading{color:var(--text-mu);font-family:'JetBrains Mono',monospace;font-size:13px;padding:40px;text-align:center;}
+  .hidden{display:none !important;}
+  @media (max-width:860px){.hero-grid{grid-template-columns:1fr;}}
+  @media (max-width:600px){.two-col{grid-template-columns:1fr;}}
+  @media (max-width:640px){
+    .wrap{padding:0 16px;}
+    .nav{padding:12px 0;}
+    .nav-links{display:none;}
+    .brand{font-size:16px;}
+    .nav-cta{font-size:12px;padding:8px 12px;}
+    .hero{padding:36px 0 40px;}
+    h1.headline{font-size:30px;}
+    .sub{font-size:15px;}
+    .hero-actions{flex-direction:column;align-items:stretch;}
+    .btn-primary,.btn-ghost{justify-content:center;text-align:center;}
+    .term-body{padding:16px 14px;font-size:12.5px;min-height:auto;}
+    section{padding:44px 0;}
+    .section-head h2{font-size:21px;}
+    .grid{grid-template-columns:1fr;}
+    .card-foot{flex-direction:column;align-items:stretch;gap:10px;}
+    .card-cta{text-align:center;}
+    .about-box{padding:20px;font-size:14.5px;}
+    .foot-row{flex-direction:column;align-items:flex-start;}
+    footer .btn-primary{width:100%;justify-content:center;}
+    .gear{bottom:14px;right:14px;width:36px;height:36px;font-size:14px;}
+    .admin-shell{padding:20px 16px 70px;}
+    .admin-head{flex-direction:column;align-items:flex-start;}
+    .admin-card{padding:16px;}
+    .pkg-row{flex-wrap:wrap;}
+    .pkg-row .row-btns{width:100%;justify-content:flex-end;}
+    .modal{padding:20px;}
+  }
+</style>
+</head>
+<body>
+
+<div id="loading" class="loading">carregando…</div>
+<div id="app" class="hidden"></div>
+<div id="toast" class="toast"></div>
+<div id="gear" class="gear hidden" title="Área administrativa">⚙</div>
+
+<script>
+/* ================= ESTADO ================= */
+const CATEGORY_META = {
+  bot:     { label: "bot discord", color: "var(--teal)"   },
+  site:    { label: "site",        color: "var(--amber)"  },
+  suporte: { label: "suporte",     color: "var(--violet)" },
+  outro:   { label: "outro",       color: "#8991A8"        }
+};
+
+let siteData = { config: {}, packages: [] };
+let adminCode = sessionStorage.getItem("adminCode") || null; // guardado só durante a sessão do navegador
+let view = "public";
+let editingPkgId = null;
+
+/* ================= API ================= */
+async function fetchSite(){
+  const res = await fetch("/api/site");
+  if(!res.ok) throw new Error("Falha ao carregar dados do site");
+  siteData = await res.json();
+}
+
+async function apiLogin(code){
+  const res = await fetch("/api/admin/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ code })
+  });
+  return res.ok;
+}
+
+async function apiSaveConfig(config){
+  const res = await fetch("/api/admin/config", {
+    method: "PUT",
+    headers: { "Content-Type": "application/json", "x-admin-code": adminCode },
+    body: JSON.stringify(config)
+  });
+  if(!res.ok) throw new Error("Falha ao salvar");
+  return res.json();
+}
+
+async function apiCreatePkg(pkg){
+  const res = await fetch("/api/admin/packages", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "x-admin-code": adminCode },
+    body: JSON.stringify(pkg)
+  });
+  if(!res.ok) throw new Error("Falha ao criar pacote");
+  return res.json();
+}
+
+async function apiUpdatePkg(id, pkg){
+  const res = await fetch("/api/admin/packages/" + id, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json", "x-admin-code": adminCode },
+    body: JSON.stringify(pkg)
+  });
+  if(!res.ok) throw new Error("Falha ao editar pacote");
+  return res.json();
+}
+
+async function apiDeletePkg(id){
+  const res = await fetch("/api/admin/packages/" + id, {
+    method: "DELETE",
+    headers: { "x-admin-code": adminCode }
+  });
+  if(!res.ok) throw new Error("Falha ao remover pacote");
+  return res.json();
+}
+
+/* ================= HELPERS ================= */
+function showToast(msg){
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  clearTimeout(t._timer);
+  t._timer = setTimeout(()=>t.classList.remove("show"), 2400);
+}
+
+function waLink(phone, text){
+  const clean = (phone||"").replace(/\D/g,"");
+  return `https://wa.me/${clean}?text=${encodeURIComponent(text)}`;
+}
+
+function escapeHtml(str){
+  const d = document.createElement("div");
+  d.textContent = str ?? "";
+  return d.innerHTML;
+}
+
+function resizeImageFile(file){
+  return new Promise((resolve, reject)=>{
+    const reader = new FileReader();
+    reader.onload = (e)=>{
+      const img = new Image();
+      img.onload = ()=>{
+        const maxW = 500;
+        const scale = Math.min(1, maxW/img.width);
+        const canvas = document.createElement("canvas");
+        canvas.width = img.width*scale;
+        canvas.height = img.height*scale;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img,0,0,canvas.width,canvas.height);
+        resolve(canvas.toDataURL("image/jpeg", 0.72));
+      };
+      img.onerror = reject;
+      img.src = e.target.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+/* ================= RENDER: SITE PÚBLICO ================= */
+function renderPublic(){
+  const c = siteData.config;
+  const heroWa = waLink(c.phone, `Olá! Vi seu site e quero saber mais sobre os serviços.`);
+
+  const pkgCards = siteData.packages.length ? siteData.packages.map(p=>{
+    const meta = CATEGORY_META[p.category] || CATEGORY_META.outro;
+    const wa = waLink(c.phone, `Olá! Tenho interesse no pacote "${p.name}" (R$ ${p.price}${p.priceNote ? " - "+p.priceNote : ""}). Pode me passar mais detalhes?`);
+    return `
+      <div class="card">
+        ${p.image ? `<img class="card-img" src="${p.image}" alt="${escapeHtml(p.name)}">` : ``}
+        <div class="cat-row"><span class="cat-dot" style="background:${meta.color}"></span><span class="cat-label">${meta.label}</span></div>
+        <h3>${escapeHtml(p.name)}</h3>
+        <p class="desc">${escapeHtml(p.description)}</p>
+        <div class="card-foot">
+          <div class="price">R$ ${escapeHtml(p.price)} <small>${p.priceNote ? escapeHtml(p.priceNote) : ""}</small></div>
+          <a class="card-cta" href="${wa}" target="_blank" rel="noopener">Chamar no WhatsApp</a>
+        </div>
+      </div>`;
+  }).join("") : `<div class="empty-state">$ nenhum pacote cadastrado ainda<br>use o painel administrativo para adicionar</div>`;
+
+  return `
+  <header class="site">
+    <div class="wrap nav">
+      <div class="brand"><span class="dot"></span>${escapeHtml(c.siteName)}</div>
+      <nav class="nav-links"><a href="#servicos">Serviços</a><a href="#sobre">Sobre</a><a href="#contato">Contato</a></nav>
+      <a class="nav-cta" href="${heroWa}" target="_blank" rel="noopener">WhatsApp</a>
+    </div>
+  </header>
+  <div class="wrap hero">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">disponível para novos projetos</div>
+        <h1 class="headline">${escapeHtml(c.heroTitle)}<br><span class="accent">${escapeHtml(c.heroHighlight)}</span></h1>
+        <p class="sub">${escapeHtml(c.heroSub)}</p>
+        <div class="hero-actions">
+          <a class="btn-primary" href="${heroWa}" target="_blank" rel="noopener">💬 Falar no WhatsApp</a>
+          <a class="btn-ghost" href="#servicos">Ver pacotes</a>
+        </div>
+      </div>
+      <div class="term">
+        <div class="term-bar"><span></span><span></span><span></span><div class="term-title">bash</div></div>
+        <div class="term-body">
+          <div class="term-line"><span class="prompt">$</span> <span class="out">whoami</span></div>
+          <div class="term-line">${escapeHtml(c.siteName)}</div>
+          <div class="term-line"><span class="prompt">$</span> <span class="out">servicos --listar</span></div>
+          <div class="term-line">→ bots para discord</div>
+          <div class="term-line">→ sites e sistemas</div>
+          <div class="term-line">→ suporte contínuo</div>
+          <div class="term-line"><span class="prompt">$</span> <span class="out">contato</span><span class="cursor"></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <section id="servicos" class="wrap">
+    <div class="section-head"><h2>Pacotes &amp; valores</h2><div class="tag">clique em um pacote pra chamar no WhatsApp</div></div>
+    <div class="grid">${pkgCards}</div>
+  </section>
+  <section id="sobre" class="wrap">
+    <div class="section-head"><h2>Sobre</h2></div>
+    <div class="about-box">${escapeHtml(c.aboutText)}</div>
+  </section>
+  <footer id="contato">
+    <div class="wrap foot-row">
+      <div><div class="foot-brand">${escapeHtml(c.siteName)}</div><div class="foot-mu">Fale comigo direto no WhatsApp para orçamentos e dúvidas.</div></div>
+      <a class="btn-primary" href="${heroWa}" target="_blank" rel="noopener">💬 Chamar agora</a>
+    </div>
+  </footer>`;
+}
+
+function renderLoginModal(){
+  return `
+  <div class="overlay" id="loginOverlay">
+    <div class="modal">
+      <h3>Área administrativa</h3>
+      <div class="field"><label>Código de acesso</label><input type="password" id="loginInput" placeholder="Digite o código"></div>
+      <div class="row-btns">
+        <button class="btn-sm primary" id="loginBtn">Entrar</button>
+        <button class="btn-sm ghost" id="loginCancel">Cancelar</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ================= RENDER: PAINEL ADMIN ================= */
+function renderAdmin(){
+  const c = siteData.config;
+  const pkgRows = siteData.packages.map(p=>{
+    const meta = CATEGORY_META[p.category] || CATEGORY_META.outro;
+    return `
+    <div class="pkg-row" data-id="${p.id}">
+      ${p.image ? `<img src="${p.image}">` : `<div style="width:64px;height:64px;border-radius:8px;background:var(--bg-deep);display:flex;align-items:center;justify-content:center;color:var(--text-mu);font-size:11px;flex-shrink:0;">sem foto</div>`}
+      <div class="info"><strong>${escapeHtml(p.name)}</strong><span>${meta.label} · R$ ${escapeHtml(p.price)} ${p.priceNote ? "· "+escapeHtml(p.priceNote) : ""}</span></div>
+      <div class="row-btns">
+        <button class="btn-sm ghost" data-action="edit-pkg" data-id="${p.id}">Editar</button>
+        <button class="btn-sm danger" data-action="del-pkg" data-id="${p.id}">Remover</button>
+      </div>
+    </div>`;
+  }).join("") || `<div class="foot-mu" style="padding:10px 0;">Nenhum pacote ainda. Adicione um abaixo.</div>`;
+
+  return `
+  <div class="admin-shell">
+    <div class="admin-head"><h1>⚙ Painel administrativo</h1><button class="btn-sm ghost" id="backToSite">← Voltar ao site</button></div>
+    <div class="admin-card">
+      <h2>Textos e identidade do site</h2>
+      <div class="field"><label>Nome do site</label><input id="f-siteName" value="${escapeHtml(c.siteName)}"></div>
+      <div class="two-col">
+        <div class="field"><label>Título de destaque (linha 1)</label><input id="f-heroTitle" value="${escapeHtml(c.heroTitle)}"></div>
+        <div class="field"><label>Título de destaque (linha 2, cor de destaque)</label><input id="f-heroHighlight" value="${escapeHtml(c.heroHighlight)}"></div>
+      </div>
+      <div class="field"><label>Subtítulo da capa</label><textarea id="f-heroSub">${escapeHtml(c.heroSub)}</textarea></div>
+      <div class="field"><label>Texto da seção "Sobre"</label><textarea id="f-aboutText">${escapeHtml(c.aboutText)}</textarea></div>
+      <div class="field"><label>Número de WhatsApp (DDI+DDD+número, só dígitos)</label><input id="f-phone" value="${escapeHtml(c.phone)}" placeholder="Ex: 5511999999999"></div>
+      <button class="btn-sm primary" id="saveTextsBtn">Salvar textos</button>
+    </div>
+    <div class="admin-card"><h2>Pacotes cadastrados</h2>${pkgRows}</div>
+    <div class="admin-card">
+      <h2 id="pkgFormTitle">Adicionar novo pacote</h2>
+      <div class="two-col">
+        <div class="field"><label>Nome do pacote</label><input id="f-pkgName" placeholder="Ex: Bot Discord Essencial"></div>
+        <div class="field"><label>Categoria</label>
+          <select id="f-pkgCategory">
+            <option value="bot">Bot Discord</option>
+            <option value="site">Site</option>
+            <option value="suporte">Suporte</option>
+            <option value="outro">Outro</option>
+          </select>
+        </div>
+      </div>
+      <div class="field"><label>Descrição</label><textarea id="f-pkgDesc" placeholder="O que está incluso nesse pacote"></textarea></div>
+      <div class="two-col">
+        <div class="field"><label>Valor (R$)</label><input id="f-pkgPrice" placeholder="Ex: 150"></div>
+        <div class="field"><label>Observação do valor (opcional)</label><input id="f-pkgNote" placeholder="Ex: pagamento único / por mês"></div>
+      </div>
+      <div class="field"><label>Imagem do pacote (opcional)</label><input type="file" id="f-pkgImage" accept="image/*"></div>
+      <div class="row-btns">
+        <button class="btn-sm primary" id="savePkgBtn">Salvar pacote</button>
+        <button class="btn-sm ghost hidden" id="cancelEditBtn">Cancelar edição</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ================= EVENTOS ================= */
+function attachPublicEvents(){
+  document.getElementById("gear").onclick = ()=>{
+    if(adminCode){ view="admin"; render(); }
+    else{ document.body.insertAdjacentHTML("beforeend", renderLoginModal()); wireLogin(); }
+  };
+}
+
+function wireLogin(){
+  const overlay = document.getElementById("loginOverlay");
+  const input = document.getElementById("loginInput");
+  input.focus();
+  document.getElementById("loginCancel").onclick = ()=> overlay.remove();
+  document.getElementById("loginBtn").onclick = tryLogin;
+  input.addEventListener("keydown", (e)=>{ if(e.key==="Enter") tryLogin(); });
+  async function tryLogin(){
+    const ok = await apiLogin(input.value);
+    if(ok){
+      adminCode = input.value;
+      sessionStorage.setItem("adminCode", adminCode);
+      overlay.remove();
+      view = "admin";
+      render();
+    }else{
+      showToast("Código incorreto");
+      input.value = "";
+    }
+  }
+}
+
+function attachAdminEvents(){
+  document.getElementById("backToSite").onclick = ()=>{ view="public"; render(); };
+
+  document.getElementById("saveTextsBtn").onclick = async ()=>{
+    const btn = document.getElementById("saveTextsBtn");
+    btn.disabled = true; btn.textContent = "Salvando…";
+    try{
+      await apiSaveConfig({
+        siteName: document.getElementById("f-siteName").value.trim(),
+        heroTitle: document.getElementById("f-heroTitle").value,
+        heroHighlight: document.getElementById("f-heroHighlight").value,
+        heroSub: document.getElementById("f-heroSub").value,
+        aboutText: document.getElementById("f-aboutText").value,
+        phone: document.getElementById("f-phone").value.trim()
+      });
+      await fetchSite();
+      showToast("Textos salvos");
+      render();
+    }catch(e){
+      console.error(e);
+      showToast("Erro ao salvar. Confira o código de acesso.");
+      btn.disabled = false; btn.textContent = "Salvar textos";
+    }
+  };
+
+  document.querySelectorAll('[data-action="edit-pkg"]').forEach(btn=>{
+    btn.onclick = ()=>{
+      const p = siteData.packages.find(x=>x.id===btn.dataset.id);
+      if(!p) return;
+      editingPkgId = p.id;
+      document.getElementById("pkgFormTitle").textContent = "Editando: " + p.name;
+      document.getElementById("f-pkgName").value = p.name;
+      document.getElementById("f-pkgCategory").value = p.category;
+      document.getElementById("f-pkgDesc").value = p.description;
+      document.getElementById("f-pkgPrice").value = p.price;
+      document.getElementById("f-pkgNote").value = p.priceNote;
+      document.getElementById("cancelEditBtn").classList.remove("hidden");
+      document.getElementById("savePkgBtn").textContent = "Salvar edição";
+      document.querySelector(".admin-card:last-child").scrollIntoView({behavior:"smooth", block:"center"});
+    };
+  });
+
+  document.querySelectorAll('[data-action="del-pkg"]').forEach(btn=>{
+    btn.onclick = async ()=>{
+      if(!confirm("Remover este pacote?")) return;
+      try{
+        await apiDeletePkg(btn.dataset.id);
+        await fetchSite();
+        showToast("Pacote removido");
+        render();
+      }catch(e){ console.error(e); showToast("Erro ao remover pacote"); }
+    };
+  });
+
+  document.getElementById("cancelEditBtn").onclick = ()=>{ editingPkgId = null; render(); };
+
+  document.getElementById("savePkgBtn").onclick = async ()=>{
+    const name = document.getElementById("f-pkgName").value.trim();
+    const price = document.getElementById("f-pkgPrice").value.trim();
+    if(!name || !price){ showToast("Preencha nome e valor"); return; }
+
+    const btn = document.getElementById("savePkgBtn");
+    btn.disabled = true; btn.textContent = "Salvando…";
+
+    let imageData = null;
+    const fileInput = document.getElementById("f-pkgImage");
+    if(fileInput.files && fileInput.files[0]){
+      try{ imageData = await resizeImageFile(fileInput.files[0]); }
+      catch(e){ console.error("Erro ao processar imagem", e); }
+    }
+
+    const pkg = {
+      name,
+      category: document.getElementById("f-pkgCategory").value,
+      description: document.getElementById("f-pkgDesc").value.trim(),
+      price,
+      priceNote: document.getElementById("f-pkgNote").value.trim(),
+      image: imageData
+    };
+
+    try{
+      if(editingPkgId) await apiUpdatePkg(editingPkgId, pkg);
+      else await apiCreatePkg(pkg);
+      editingPkgId = null;
+      await fetchSite();
+      showToast("Pacote salvo");
+      render();
+    }catch(e){
+      console.error(e);
+      showToast("Erro ao salvar pacote");
+      btn.disabled = false; btn.textContent = "Salvar pacote";
+    }
+  };
+}
+
+/* ================= RENDER MESTRE ================= */
+function render(){
+  const app = document.getElementById("app");
+  const gear = document.getElementById("gear");
+  gear.classList.remove("hidden");
+  if(view === "public"){
+    app.innerHTML = renderPublic();
+    attachPublicEvents();
+  }else{
+    app.innerHTML = renderAdmin();
+    gear.classList.add("hidden");
+    attachAdminEvents();
+  }
+}
+
+/* ================= INICIALIZAÇÃO ================= */
+(async function init(){
+  try{
+    await fetchSite();
+  }catch(e){
+    console.error(e);
+    document.getElementById("loading").textContent = "Não foi possível conectar ao servidor.";
+    return;
+  }
+  document.getElementById("loading").classList.add("hidden");
+  document.getElementById("app").classList.remove("hidden");
+  render();
+})();
+</script>
+</body>
+</html>
